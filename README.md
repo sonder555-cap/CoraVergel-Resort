@@ -1,1 +1,1 @@
-# CoraVergel-Resort
+# CoraVergel Resort
