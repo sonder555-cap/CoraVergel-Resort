@@ -2,7 +2,7 @@
 session_start();
 require "../config/conn.php";
 require "../config/security.php";
-require_once "../config/mailer.php";
+require "../config/mailer.php";
 
 $user_id   = $_SESSION['user_id'] ?? null;
 $full_name = $_SESSION['full_name'] ?? '';
