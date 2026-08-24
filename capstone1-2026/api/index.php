@@ -1,2 +1,4 @@
 <?php
-require_once __DIR__ . '/../../config/conn.php';
+
+require_once __DIR__ . '/../../config/database.php';
+
