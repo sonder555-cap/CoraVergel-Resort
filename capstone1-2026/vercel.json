@@ -1,4 +1,5 @@
 {
+  "$schema": "https://openapi.vercel.sh/vercel.json",
   "functions": {
     "api/*.php": {
       "runtime": "vercel-php@0.9.0"
@@ -6,16 +7,8 @@
   },
   "routes": [
     {
-      "src": "/",
+      "src": "/(.*)",
       "dest": "/api/index.php"
-    },
-    {
-      "src": "/api/(.*)",
-      "dest": "/api/$1"
-    },
-    {
-      "src": "/(.*\\.php)",
-      "dest": "/$1"
     }
   ]
 }
