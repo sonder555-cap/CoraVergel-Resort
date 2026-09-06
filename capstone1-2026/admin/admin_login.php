@@ -31,6 +31,41 @@ function maskEmail($email) {
     return $maskedUser . '@' . $maskedHost . ($tld ? '.' . $tld : '');
 }
 
+// Builds the branded HTML email used for admin login verification codes.
+// Shared by the initial OTP send and the "resend code" endpoint so both
+// codes look identical and stay in sync with the confirmed/cancelled
+// booking email design.
+function buildAdminOtpEmail($full_name, $otp) {
+    return '
+    <div style="background:#ffffff;padding:40px 24px;font-family:Arial,Helvetica,sans-serif;">
+      <div style="max-width:460px;margin:0 auto;">
+
+        <div style="font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#8a7a4f;font-weight:700;margin-bottom:28px;">CoraVergel Resort</div>
+
+        <p style="font-size:15px;color:#1a1a1a;line-height:1.6;margin:0 0 16px;">Hi ' . htmlspecialchars($full_name) . ',</p>
+
+        <p style="font-size:15px;color:#1a1a1a;line-height:1.6;margin:0 0 24px;">
+          Use the verification code below to finish signing in to the CoraVergel Resort admin panel:
+        </p>
+
+        <p style="font-size:32px;font-weight:700;letter-spacing:8px;color:#1a1a1a;margin:0 0 24px;">' . htmlspecialchars($otp) . '</p>
+
+        <p style="font-size:14px;color:#444444;line-height:1.7;margin:0 0 8px;">This code expires in 10 minutes.</p>
+        <p style="font-size:14px;color:#444444;line-height:1.7;margin:0 0 8px;">Do not share this code with anyone, including CoraVergel Resort staff.</p>
+        <p style="font-size:14px;color:#444444;line-height:1.7;margin:0 0 28px;">If you did not attempt to log in, you can safely ignore this email.</p>
+
+        <p style="font-size:14px;color:#1a1a1a;line-height:1.6;margin:0;">Thanks,<br>CoraVergel Resort</p>
+
+        <hr style="border:none;border-top:1px solid #eeeeee;margin:32px 0 16px;">
+        <p style="font-size:12px;color:#999999;line-height:1.6;margin:0;">
+          Barosong, Tigbauan, Iloilo City, Philippines<br>
+          This is an automated message for the admin panel — please do not reply.
+        </p> 
+
+      </div>
+    </div>';
+}
+
 // Issues a fresh single-use reset token for $admin_id, stores only its hash
 // (the raw token is a bearer credential and never touches the database),
 // and emails a clickable reset link built from the current request's own
@@ -50,13 +85,34 @@ function sendPasswordResetLink($conn, $admin_id, $full_name, $email) {
     $path   = strtok($_SERVER['REQUEST_URI'] ?? 'admin_login.php', '?');
     $link   = "{$scheme}://{$host}{$path}?token={$token}";
 
-    $subject  = "CoraVergel Resort — Reset Your Admin Password";
-    $bodyHtml = "<p>Hi {$full_name},</p>"
-              . "<p>We received a request to reset your admin password. Click the button below to choose a new one:</p>"
-              . "<p style='margin:22px 0;'><a href=\"{$link}\" style=\"background:#111;color:#fff;padding:12px 24px;border-radius:4px;text-decoration:none;font-weight:600;display:inline-block;\">Reset Password</a></p>"
-              . "<p>This link expires in 30 minutes and can only be used once. If you didn't request this, you can safely ignore this email — your password will not be changed.</p>"
-              . "<p style='color:#888;font-size:.85em;'>Or paste this link into your browser:<br>{$link}</p>"
-              . "<p>— CoraVergel Resort</p>";
+    $subject  = "CoraVergel Resort Reset Link";
+    $bodyHtml = '
+    <div style="background:#ffffff;padding:40px 24px;font-family:Arial,Helvetica,sans-serif;">
+      <div style="max-width:460px;margin:0 auto;">
+
+        <div style="font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#8a7a4f;font-weight:700;margin-bottom:28px;">CoraVergel Resort</div>
+
+        <p style="font-size:15px;color:#1a1a1a;line-height:1.6;margin:0 0 16px;">Hi ' . htmlspecialchars($full_name) . ',</p>
+
+        <p style="font-size:15px;color:#1a1a1a;line-height:1.6;margin:0 0 20px;">
+          We received a request to reset the password on your CoraVergel Resort admin account. Use the link below to choose a new one:
+        </p>
+
+        <p style="font-size:11px;margin:0 0 24px;"><a href="' . $link . '" style="color:#1a4fd6;word-break:break-all;">' . $link . '</a></p>
+
+        <p style="font-size:14px;color:#444444;line-height:1.7;margin:0 0 8px;">This link expires in 30 minutes and can only be used once.</p>
+        <p style="font-size:14px;color:#444444;line-height:1.7;margin:0 0 28px;">If you didn\'t request this, you can safely ignore this email — your password will not be changed.</p>
+
+        <p style="font-size:14px;color:#1a1a1a;line-height:1.6;margin:0;">Thanks,<br>CoraVergel Resort</p>
+
+        <hr style="border:none;border-top:1px solid #eeeeee;margin:32px 0 16px;">
+        <p style="font-size:12px;color:#999999;line-height:1.6;margin:0;">
+          21 Barosong, Tigbauan, Iloilo City, Philippines<br>
+          This is an automated message for the admin panel — please do not reply.
+        </p>
+
+      </div>
+    </div>';
 
     return sendMail($email, $full_name, $subject, $bodyHtml);
 }
@@ -193,12 +249,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     $ins->bind_param("sss", $delivery_email, $otp, $otp_expires); $ins->execute(); $ins->close();
 
     $subject  = "CoraVergel Resort — Admin Login Code";
-    $bodyHtml = "<p>Hi {$full_name},</p>"
-              . "<p>Your one-time admin verification code is:</p>"
-              . "<h2 style='letter-spacing:4px;'>{$otp}</h2>"
-              . "<p>This code expires in 10 minutes.</p>"
-              . "<p>If you did not attempt to log in, please ignore this email.</p>"
-              . "<p>— CoraVergel Resort</p>";
+    $bodyHtml = buildAdminOtpEmail($full_name, $otp);
 
     $sent = sendMail($delivery_email, $full_name, $subject, $bodyHtml);
     echo json_encode([
@@ -379,12 +430,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
                     $_SESSION['temp_remember']   = !empty($_POST['remember_device']);
 
                     $subject  = "CoraVergel Resort — Admin Login Code";
-                    $bodyHtml = "<p>Hi {$full_name},</p>"
-                              . "<p>Your one-time admin verification code is:</p>"
-                              . "<h2 style='letter-spacing:4px;'>{$otp}</h2>"
-                              . "<p>This code expires in 10 minutes.</p>"
-                              . "<p>If you did not attempt to log in, please ignore this email.</p>"
-                              . "<p>— CoraVergel Resort</p>";
+                    $bodyHtml = buildAdminOtpEmail($full_name, $otp);
 
                     // OTP is always delivered to the authenticated administrator's own account email.
                     sendMail($delivery_email, $full_name, $subject, $bodyHtml);
