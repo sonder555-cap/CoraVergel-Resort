@@ -1,0 +1,28 @@
+/* CoraVergel Resort — Contact section (simplified) */
+#contact{padding:72px 0;background:#faf9f6;}
+.cv-contact-wrap{width:min(560px,calc(100% - 40px));margin:0 auto;}
+
+.cvc-simple-wrap{text-align:center;}
+
+.cvc-simple-header{margin-bottom:22px;text-align:center;}
+.cvc-eyebrow{display:block;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#b28a45;font-weight:600;margin-bottom:10px;}
+.cvc-title{font-family:'Arial',Georgia,serif;font-size:30px;line-height:1.05;color:#000;margin:0 0 6px;
+text-transform:uppercase;}
+.cvc-sub{font-size:14px;line-height:1.7;color:#666;max-width:400px;margin:0 auto;}
+
+.cvc-form-panel{background:#fff;border:1px solid #ebe7df;border-radius:14px;padding:28px;box-shadow:0 8px 30px rgba(30,25,15,.05);text-align:left;}
+#contactForm .cvc-field{margin-bottom:18px;}
+#contactForm label{display:block;font-size:11px;font-weight:600;color:#444;margin-bottom:6px;}
+#contactForm label.cvc-lbl-gold{color:#b28a45;}
+#contactForm input,#contactForm textarea{width:100%;box-sizing:border-box;border:1px solid #ddd9d0;border-radius:8px;background:#fff;padding:11px 12px;font:400 13px 'DM Sans',Arial,sans-serif;color:#222;outline:none;}
+#contactForm textarea{min-height:110px;resize:vertical;}
+#contactForm input:focus,#contactForm textarea:focus{border-color:#b28a45;box-shadow:0 0 0 3px rgba(178,138,69,.10);}
+
+.cvc-send{width:100%;border:0;border-radius:8px;background:#b6924f;color:#fff;padding:13px 20px;font:600 13px 'DM Sans',Arial,sans-serif;cursor:pointer;}
+.cvc-send:hover{background:#b28a45;}
+
+.cvc-alert{padding:11px 13px;border-radius:8px;font-size:12px;margin-bottom:16px;}
+.cvc-alert.success{background:#eaf6ed;color:#28723a;border:1px solid #cce8d2;}
+.cvc-alert.error{background:#fff0f0;color:#a52f2f;border:1px solid #f0cccc;}
+
+@media(max-width:520px){.cv-contact-wrap{width:min(100% - 28px,560px);}.cvc-form-panel{padding:20px;}.cvc-title{font-size:28px;}}
