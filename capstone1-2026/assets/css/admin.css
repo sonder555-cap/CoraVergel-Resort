@@ -3268,9 +3268,8 @@ body.notif-open .rooms-filter-wrap{
 
 #section-bookings .search-box,
 #section-bookings .search-box input,
-#section-bookings #roomFilterSelect,
-#section-bookings #dateFilterBtn{
-    height:38px;
+#section-bookings #roomFilterSelect{
+    height:40px;
 }
 
 #section-bookings .search-box{
