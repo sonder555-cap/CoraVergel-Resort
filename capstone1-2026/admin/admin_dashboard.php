@@ -1083,11 +1083,11 @@ function buildBookingConfirmationEmail($guest_name, $room_type, $check_in, $chec
 
         <!-- Body -->
         <div style="padding:28px;">
-          <span style="display:inline-block;padding:4px 12px;border-radius:20px;background:#e8f5e9;color:#2e7d32;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;margin-bottom:18px;">&#10003; Confirmed</span>
+          <span style="display:inline-block;padding:4px 12px;border-radius:20px;background:#e8f5e9;color:#2e7d32;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;margin-bottom:18px;">Confirmed</span>
 
           <p style="font-size:14px;color:#1a1a2e;line-height:1.6;margin:14px 0;">
             Hi ' . htmlspecialchars($guest_name) . ',<br>
-            Great news &mdash; your stay at <strong>CoraVergel Resort</strong> is officially confirmed. We can&rsquo;t wait to welcome you.
+            Great news your stay at <strong>CoraVergel Resort</strong> is officially confirmed. We can&rsquo;t wait to welcome you.
           </p>
 
           <!-- Room card -->
@@ -1143,8 +1143,8 @@ function buildBookingConfirmationEmail($guest_name, $room_type, $check_in, $chec
         <!-- Footer -->
         <div style="background:#fafaf8;border-top:1px solid #f0ede8;padding:20px 28px;text-align:center;">
           <div style="font-family:\'Cormorant Garamond\',Georgia,serif;font-size:15px;font-weight:600;color:#1a1a2e;">CoraVergel Resort</div>
-          <div style="font-size:11px;color:#aaa;margin-top:4px;">21 Barosong, Tigbauan, Iloilo City, Philippines</div>
-          <div style="font-size:11px;color:#aaa;">+320 2512 &middot; coravergelresort@gmail.com</div>
+          <div style="font-size:11px;color:#aaa;margin-top:4px;">Barosong, Tigbauan, Iloilo City, Philippines</div>
+          <div style="font-size:11px;color:#aaa;">coravergelresort@gmail.com</div>
         </div>
 
       </div>
@@ -1157,26 +1157,64 @@ function buildBookingCancellationEmail($guest_name, $room_type, $check_in, $chec
     $total = number_format((float)$total_price, 2);
 
     return '
-    <div style="background:#f5f2ed;padding:32px 16px;font-family:Arial,sans-serif;">
-      <div style="max-width:520px;margin:0 auto;background:#fff;border-radius:14px;overflow:hidden;border:1px solid #eee;">
-        <div style="background:#1a1a2e;padding:28px;text-align:center;">
-          <div style="font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#c8a96e;">CoraVergel Resort</div>
-          <div style="font-size:26px;font-weight:700;color:#fff;margin-top:7px;">Booking Cancelled</div>
+    <div style="background:#f5f2ed;padding:32px 16px;font-family:\'DM Sans\',Arial,sans-serif;">
+      <div style="max-width:520px;margin:0 auto;background:#ffffff;border-radius:14px;overflow:hidden;border:1px solid #f0ede8;">
+
+        <!-- Header -->
+        <div style="background:#1a1a2e;padding:32px 28px;text-align:center;">
+          <div style="font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#c8a96e;margin-bottom:8px;">CoraVergel Resort</div>
+          <div style="font-family:\'Cormorant Garamond\',Georgia,serif;font-size:28px;font-weight:600;color:#ffffff;">Booking Cancelled</div>
         </div>
-        <div style="padding:28px;color:#333;line-height:1.6;">
-          <p>Hi <strong>' . htmlspecialchars($guest_name) . '</strong>,</p>
-          <p>Your reservation <strong>#' . htmlspecialchars($booking_ref) . '</strong> has been cancelled.</p>
-          <div style="background:#fafaf8;border:1px solid #eee;border-radius:10px;padding:18px;margin:20px 0;">
-            <strong>' . htmlspecialchars($room_type) . '</strong><br>
-            Check-in: ' . $ci . '<br>
-            Check-out: ' . $co . '<br>
-            Total booking amount: ₱' . $total . '
+
+        <!-- Body -->
+        <div style="padding:28px;">
+          <span style="display:inline-block;padding:4px 12px;border-radius:20px;background:#fdecea;color:#c0392b;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;margin-bottom:18px;">&#10005; Cancelled</span>
+
+          <p style="font-size:14px;color:#1a1a2e;line-height:1.6;margin:14px 0;">
+            Hi ' . htmlspecialchars($guest_name) . ',<br>
+            Your reservation at <strong>CoraVergel Resort</strong> has been cancelled. If this wasn&rsquo;t what you expected, please reach out and we&rsquo;ll be glad to help.
+          </p>
+
+          <!-- Room card -->
+          <div style="background:#fafaf8;border:1px solid #f0ede8;border-radius:10px;padding:18px 20px;margin:20px 0;">
+            <div style="font-family:\'Cormorant Garamond\',Georgia,serif;font-size:18px;font-weight:600;color:#1a1a2e;margin-bottom:14px;">' . htmlspecialchars($room_type) . '</div>
+
+            <table width="100%" cellpadding="0" cellspacing="0" style="font-size:13px;">
+              <tr>
+                <td width="50%" style="padding-bottom:12px;">
+                  <div style="font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:#aaa;margin-bottom:3px;">Check-in</div>
+                  <div style="font-weight:600;color:#1a1a2e;">' . $ci . '</div>
+                </td>
+                <td width="50%" style="padding-bottom:12px;">
+                  <div style="font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:#aaa;margin-bottom:3px;">Check-out</div>
+                  <div style="font-weight:600;color:#1a1a2e;">' . $co . '</div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div style="font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:#aaa;margin-bottom:3px;">Booking Ref</div>
+                  <div style="font-weight:600;color:#1a1a2e;">#' . htmlspecialchars($booking_ref) . '</div>
+                </td>
+                <td>
+                  <div style="font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:#aaa;margin-bottom:3px;">Amount</div>
+                  <div style="font-weight:600;color:#1a1a2e;">&#8369;' . $total . '</div>
+                </td>
+              </tr>
+            </table>
           </div>
-          <p>If you believe this cancellation was made in error, please contact CoraVergel Resort directly.</p>
+
+          <p style="font-size:13px;color:#555;line-height:1.6;">
+            If you believe this cancellation was made in error, please call us at <strong>+320 2512</strong> or reply to this email.
+          </p>
         </div>
-        <div style="background:#fafaf8;border-top:1px solid #eee;padding:18px;text-align:center;font-size:11px;color:#999;">
-          CoraVergel Resort · Tigbauan, Iloilo · +320 2512
+
+        <!-- Footer -->
+        <div style="background:#fafaf8;border-top:1px solid #f0ede8;padding:20px 28px;text-align:center;">
+          <div style="font-family:\'Cormorant Garamond\',Georgia,serif;font-size:15px;font-weight:600;color:#1a1a2e;">CoraVergel Resort</div>
+          <div style="font-size:11px;color:#aaa;margin-top:4px;">21 Barosong, Tigbauan, Iloilo City, Philippines</div>
+          <div style="font-size:11px;color:#aaa;">+320 2512 &middot; coravergelresort@gmail.com</div>
         </div>
+
       </div>
     </div>';
 }
@@ -1784,7 +1822,7 @@ function human_time_diff($ts) {
             <div class="rooms-toolbar">
                 <div class="search-box rooms-search-box">
                     <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="text" id="roomsSearchInput" placeholder="Search rooms..." oninput="filterRoomsTable()">
+                    <input type="text" id="roomsSearchInput" placeholder="Search" oninput="filterRoomsTable()">
                 </div>
                 <div class="rooms-select-wrap rooms-quick-select">
                     <select id="roomsStatusSelect" onchange="setRoomStatusQuick(this.value)">
@@ -2064,7 +2102,7 @@ function human_time_diff($ts) {
                 </div>
                 <div class="table-card settings-card settings-card--wide">
                     <div class="settings-card-head"><div class="settings-title-wrap"><div class="settings-icon settings-icon--navy"><i class="fa-solid fa-mobile-screen-button"></i></div><div><h3>Trusted Devices</h3><p>Devices that skip OTP verification on login.</p></div></div><?php if (!empty($trusted_devices)): ?><form method="POST" action="admin_dashboard.php" onsubmit="return confirm('Remove all trusted devices? Every device will need an OTP code on its next login.')"><input type="hidden" name="revoke_all_devices" value="1"><?= csrfField() ?><button type="submit" class="settings-danger-btn"><i class="fa-solid fa-trash"></i> Remove All</button></form><?php endif; ?></div>
-                    <div class="table-wrap"><table><thead><tr><th>#</th><th>Status</th><th>Expires</th><th></th></tr></thead><tbody><?php if (empty($trusted_devices)): ?><tr><td colspan="4" class="empty-cell">No trusted devices — every login currently requires an OTP code.</td></tr><?php else: foreach ($trusted_devices as $i => $d): $expired = strtotime($d['expires_at']) < time(); ?><tr><td class="row-num"><?=$i+1?></td><td><?php if ($expired): ?><span class="status-badge status--cancelled">Expired</span><?php else: ?><span class="status-badge status--confirmed">Trusted</span><?php endif; ?></td><td class="text-muted"><?=date('M d, Y g:i A', strtotime($d['expires_at']))?></td><td><form method="POST" action="admin_dashboard.php" onsubmit="return confirm('Remove this trusted device?')"><input type="hidden" name="revoke_device" value="<?=$d['id']?>"><?= csrfField() ?><button type="submit" class="settings-danger-btn settings-danger-btn--small"><i class="fa-solid fa-xmark"></i> Remove</button></form></td></tr><?php endforeach; endif; ?></tbody></table></div>
+                    <div class="table-wrap"><table><thead><tr><th>#</th><th>Status</th><th>Expires</th><th></th></tr></thead><tbody><?php if (empty($trusted_devices)): ?><tr><td colspan="4" class="empty-cell">No trusted devices - every login currently requires an OTP code.</td></tr><?php else: foreach ($trusted_devices as $i => $d): $expired = strtotime($d['expires_at']) < time(); ?><tr><td class="row-num"><?=$i+1?></td><td><?php if ($expired): ?><span class="status-badge status--cancelled">Expired</span><?php else: ?><span class="status-badge status--confirmed">Trusted</span><?php endif; ?></td><td class="text-muted"><?=date('M d, Y g:i A', strtotime($d['expires_at']))?></td><td><form method="POST" action="admin_dashboard.php" onsubmit="return confirm('Remove this trusted device?')"><input type="hidden" name="revoke_device" value="<?=$d['id']?>"><?= csrfField() ?><button type="submit" class="settings-danger-btn settings-danger-btn--small"><i class="fa-solid fa-xmark"></i> Remove</button></form></td></tr><?php endforeach; endif; ?></tbody></table></div>
                 </div>
                 <div class="table-card settings-card settings-card--wide">
                     <div class="settings-card-head"><div class="settings-title-wrap"><div class="settings-icon settings-icon--navy"><i class="fa-solid fa-shield-halved"></i></div><div><h3>Login Activity</h3><p>Recent administrator sign-ins, devices, IP addresses, and login methods.</p></div></div></div>
